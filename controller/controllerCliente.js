@@ -2,7 +2,7 @@ const message = require ('../modulo/config.js')
 const DAOcliente = require ('../model/DAO/DAOcliente.js')
 
 const criarCliente = async (dados, contentType) => {
-    let dados = {}
+    
     try {
         if (contentType && contentType.includes('application/json')) {
             if (dados.nome == undefined || dados.nome == null || dados.nome.length >100    ||
