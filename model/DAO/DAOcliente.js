@@ -66,9 +66,22 @@ const selectAllClientes = async () => {
     }
     
 }
+const deleteCliente = async (id) => {
+    try {
+        let sql = `delete from clientes where id = ${id}`
+        let result = await prisma.$executeRawUnsafe(sql)
+    if (result)
+        return true
+    else 
+        return false
+    } catch (error) {
+        return false
+    }
+}
 module.exports = {
     inserirCliente,
     selectClienteById,
     atualizarCliente,
-    selectAllClientes
+    selectAllClientes,
+    deleteCliente
 }

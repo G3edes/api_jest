@@ -80,3 +80,62 @@ const listarCliente = async () => {
         return message.ERROR_INTERNAL_SERVER_CONTROLLER
     }
 }
+const listarClienteID = async (id) => {
+    try {
+        let dados = {}
+
+        if (id == undefined || id == null || id == '' || id < 0) {
+            return message.ERROR_REQUIRED_FIELDS
+        } else {
+            let result = await DAOcliente.selectClienteById(id)
+
+            if (result && typeof result === 'object') {
+                if (result.length > 0) {
+                    dados.itens = result.length
+                    dados.clientes = result
+                    return dados
+                } else {
+                    return message.ERROR_NOT_FOUND
+                }
+            } else {
+                return message.ERROR_INTERNAL_SERVER_MODEL
+            }
+        }
+    } catch (error) {
+        return message.ERROR_INTERNAL_SERVER_CONTROLLER
+    }
+}
+
+const deleteCliente =  async (id) => {
+    try {
+        if (id == undefined || id == null || id == '' || id<0) {
+            return message.ERROR_REQUIRED_FIELDS
+        }else{
+            let result = await DAOcliente.selectClienteById(parseInt(id))
+            if (result != false || typeof(result) == 'object') {
+                if (result.length>0) {
+                    let result = await DAOcliente.deleteCliente(parseInt(id))
+                    if (result) {
+                        return message.SUCCESS_DELETED_ITEM
+                    }else{
+                        return message.ERROR_INTERNAL_SERVER_MODEL
+                    }
+                }else{
+                    return message.ERROR_NOT_FOUND
+                }
+            }else{
+                return message.ERROR_INTERNAL_SERVER_MODEL
+            }
+        }
+    } catch (error) {
+        return message.ERROR_INTERNAL_SERVER_CONTROLLER
+    }
+}
+
+module.exports={
+    criarCliente,
+    deleteCliente,
+    atualizarCliente,
+    listarClienteID,
+    listarCliente
+}
